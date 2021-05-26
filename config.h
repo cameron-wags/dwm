@@ -36,9 +36,8 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class                instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",               NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",            NULL,       NULL,       1 << 8,       0,           -1 },
-	{ "brave-browser-beta", NULL,       NULL,       0,            0,           -1 },
+	{ "Gimp",               NULL,       NULL,       0,            0,           -1 },
+	{ "Firefox",            NULL,       NULL,       0,            0,           -1 },
 	{ "code",               NULL,       NULL,       0,            0,           -1 },
 };
 
@@ -74,34 +73,60 @@ static const char *shutdown[] = { "shutdown", "now" };
 
 static Key keys[] = {
   	/* modifier                     key           function        argument */
+	/*** Launchers ***/
+	/* dmenu */
   	{ MODKEY,                       XK_p,         spawn,          {.v = dmenucmd } },
+	/* terminal */
 	{ MODKEY,                       XK_semicolon, spawn,          {.v = termcmd } },
+	/* browser */
 	{ MODKEY,                       XK_i,         spawn,          {.v = browser } },
+	/* shutdown */
 	{ MODKEY|ShiftMask,             XK_s,         spawn,          {.v = shutdown } },
+	/* quit */
 	{ MODKEY|ShiftMask,             XK_q,         quit,           {0} },
-	{ MODKEY,                       XK_b,         togglebar,      {0} },
-	{ MODKEY,                       XK_j,         focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,         focusstack,     {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_j,         movestack,      {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_k,         movestack,      {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_h,         incnmaster,     {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_l,         incnmaster,     {.i = -1 } },
-	{ MODKEY,                       XK_h,         setmfact,       {.f = -0.025} },
-	{ MODKEY,                       XK_l,         setmfact,       {.f = +0.025} },
-	{ MODKEY,                       XK_Return,    zoom,           {0} },
-	{ MODKEY,                       XK_Tab,       view,           {0} },
+	/*** Client ***/
+	/* close */
 	{ MODKEY,                       XK_c,         killclient,     {0} },
-	{ MODKEY,                       XK_t,         setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,         setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,         setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_space,     setlayout,      {0} },
+	/* focus next */
+	{ MODKEY,                       XK_j,         focusstack,     {.i = +1 } },
+	/* focus previous */
+	{ MODKEY,                       XK_k,         focusstack,     {.i = -1 } },
+	/* swap with next */
+	{ MODKEY|ShiftMask,             XK_j,         movestack,      {.i = +1 } },
+	/* swap with previous */
+	{ MODKEY|ShiftMask,             XK_k,         movestack,      {.i = -1 } },
+	/* swap with master */
+	{ MODKEY,                       XK_Return,    zoom,           {0} },
+	/* send to next tag */
+	{ MODKEY,                       XK_n,         inctag,         {.i = +1 } },
+	/* send to previous tag */
+	{ MODKEY|ShiftMask,             XK_n,         inctag,         {.i = -1 } },
+	/* toggle floating */
 	{ MODKEY|ShiftMask,             XK_space,     togglefloating, {0} },
-	{ MODKEY,                       XK_0,         view,           {.ui = ~0 } },
+	/* Show focused client in all tags */
 	{ MODKEY|ShiftMask,             XK_0,         tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,     focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period,    focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,     tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period,    tagmon,         {.i = +1 } },
+	/*** Layout ***/
+	/* toggle bar */
+	{ MODKEY,                       XK_b,         togglebar,      {0} },
+	/* inc master window count */
+	{ MODKEY|ShiftMask,             XK_h,         incnmaster,     {.i = +1 } },
+	/* dec master window count */
+	{ MODKEY|ShiftMask,             XK_l,         incnmaster,     {.i = -1 } },
+	/* inc master scale */
+	{ MODKEY,                       XK_l,         setmfact,       {.f = +0.025} },
+	/* dec master scale */
+	{ MODKEY,                       XK_h,         setmfact,       {.f = -0.025} },
+	/* set tile */
+	{ MODKEY,                       XK_t,         setlayout,      {.v = &layouts[0]} },
+	/* set floating */
+	{ MODKEY,                       XK_f,         setlayout,      {.v = &layouts[1]} },
+	/* set monocle */
+	{ MODKEY,                       XK_m,         setlayout,      {.v = &layouts[2]} },
+	/* switch to previous layout */
+	{ MODKEY,                       XK_space,     setlayout,      {0} },
+	/* show all clients */
+	{ MODKEY,                       XK_0,         view,           {.ui = ~0 } },
+	/*** Navigation ***/
 	TAGKEYS(                        XK_1,                         0)
 	TAGKEYS(                        XK_2,                         1)
 	TAGKEYS(                        XK_3,                         2)
@@ -111,6 +136,12 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                         6)
 	TAGKEYS(                        XK_8,                         7)
 	TAGKEYS(                        XK_9,                         8)
+	/* switch to previous tag */
+	{ MODKEY,                       XK_Tab,       view,           {0} },
+	{ MODKEY,                       XK_comma,     focusmon,       {.i = -1 } },
+	{ MODKEY,                       XK_period,    focusmon,       {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_comma,     tagmon,         {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_period,    tagmon,         {.i = +1 } },
 };
 
 /* button definitions */
