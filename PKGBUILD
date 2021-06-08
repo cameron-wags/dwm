@@ -8,7 +8,7 @@ url="https://github.com/cameron-wags/dwm"
 license=("MIT")
 depends=()
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz")
-md5sums=("SKIP")
+md5sums=('b64fe9310d17076cc07c1cd1debb5b59')
 
 package() {
     cd "$pkgname-$pkgver"
