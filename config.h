@@ -139,9 +139,14 @@ static Key keys[] = {
 	TAGKEYS(                        XK_9,                         8)
 	/* switch to previous tag */
 	{ MODKEY,                       XK_Tab,       view,           {0} },
+        /*** Multi Monitor ***/
+        /* focus previous monitor */
 	{ MODKEY,                       XK_comma,     focusmon,       {.i = -1 } },
+        /* focus next monitor */
 	{ MODKEY,                       XK_period,    focusmon,       {.i = +1 } },
+        /* send focused window to previous */
 	{ MODKEY|ShiftMask,             XK_comma,     tagmon,         {.i = -1 } },
+        /* send focused window to next */
 	{ MODKEY|ShiftMask,             XK_period,    tagmon,         {.i = +1 } },
 };
 
