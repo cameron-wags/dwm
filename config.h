@@ -40,6 +40,7 @@ static const Rule rules[] = {
 	{ "Gimp",               NULL,       NULL,       0,            0,           -1 },
 	{ "Firefox",            NULL,       NULL,       0,            0,           -1 },
 	{ "code",               NULL,       NULL,       0,            0,           -1 },
+	{ "mpv",                NULL,       NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
